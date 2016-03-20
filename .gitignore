@@ -4,8 +4,11 @@
 *.so
 
 # Folders
+.idea
 _obj
 _test
+bin
+cover
 
 # Architecture specific extensions/prefixes
 *.[568vq]
