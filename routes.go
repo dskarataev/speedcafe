@@ -7,6 +7,5 @@ const (
 )
 
 func (app *Speedcafe) addRoutes() {
-	app.Engine.Group()
 	app.Engine.GET(URLHelloWorld, handlers.HelloWorld)
 }
