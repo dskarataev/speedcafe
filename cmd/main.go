@@ -1,9 +1,14 @@
 package main
 
-import "speedcafe"
+import (
+	"speedcafe"
+	"os"
+)
 
 func main() {
+	address := ":" + os.Getenv("PORT")
+
 	app := speedcafe.NewApp()
 	app.Init()
-	app.Run(":8888")
+	app.Run(address)
 }

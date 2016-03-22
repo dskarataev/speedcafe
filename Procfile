@@ -1,1 +1,1 @@
-web: speedcafe
+web: cmd
