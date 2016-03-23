@@ -1,6 +1,6 @@
 package speedcafe
 
-import "speedcafe/handlers"
+import "github.com/dskarataev/speedcafe/handlers"
 
 const (
 	URLHelloWorld = "/hello/world"

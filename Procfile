@@ -1,2 +1,2 @@
-web: speedcafe/cmd/speedcafe
+web: speedcafe
 
