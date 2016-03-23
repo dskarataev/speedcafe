@@ -2,13 +2,18 @@ package main
 
 import (
 	"speedcafe"
+	"log"
 	"os"
 )
 
 func main() {
-	address := ":" + os.Getenv("PORT")
+	port := os.Getenv("PORT")
+
+        if port == "" {
+                log.Fatal("$PORT must be set")
+        }
 
 	app := speedcafe.NewApp()
 	app.Init()
-	app.Run(address)
+	app.Run(port)
 }

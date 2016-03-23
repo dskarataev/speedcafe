@@ -21,6 +21,6 @@ func (app *Speedcafe) Init() {
 	app.addRoutes()
 }
 
-func (app *Speedcafe) Run(address string) {
-	app.Engine.Run(address)
+func (app *Speedcafe) Run(port string) {
+	app.Engine.Run(":" + port)
 }
