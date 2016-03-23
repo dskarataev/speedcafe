@@ -1,2 +1,2 @@
-web: speedcafe
+web: web
 
