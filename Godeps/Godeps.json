@@ -2,6 +2,9 @@
 	"ImportPath": "github.com/dskarataev/speedcafe",
 	"GoVersion": "go1.5",
 	"GodepVersion": "v60",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/gin-gonic/gin",
