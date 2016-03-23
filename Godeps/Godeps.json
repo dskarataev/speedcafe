@@ -1,5 +1,5 @@
 {
-	"ImportPath": "speedcafe",
+	"ImportPath": "github.com/dskarataev/speedcafe",
 	"GoVersion": "go1.5",
 	"Deps": [
 		{
