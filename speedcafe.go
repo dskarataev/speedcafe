@@ -5,7 +5,6 @@ import (
 	"speedcafe/interfaces"
 	"speedcafe/services/foursquare"
 
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
