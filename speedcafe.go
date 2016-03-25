@@ -31,9 +31,6 @@ func (this *SpeedCafe) SetPort(port string) {
 }
 
 func (this *SpeedCafe) Init() error {
-	// router and HTTP server
-	this.Engine = gin.Default()
-
 	// config
 	err := this.initConfig()
 
@@ -42,6 +39,12 @@ func (this *SpeedCafe) Init() error {
 		this.Config.FoursquareClient.ID,
 		this.Config.FoursquareClient.SecretKey,
 	)
+
+	// router and HTTP server
+	this.Engine = gin.Default()
+
+	// templates
+	this.Engine.LoadHTMLGlob("templates/*")
 
 	// routes
 	this.addRoutes()
