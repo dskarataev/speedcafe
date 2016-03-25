@@ -1,8 +1,9 @@
 package speedcafe
 
 import (
+	"speedcafe/interfaces"
+
 	"github.com/gin-gonic/gin"
-	"github.com/dskarataev/speedcafe/interfaces"
 )
 
 type Speedcafe struct {

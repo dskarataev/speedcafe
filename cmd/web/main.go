@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/dskarataev/speedcafe"
+	"speedcafe"
+	
 	"log"
 	"os"
 )
