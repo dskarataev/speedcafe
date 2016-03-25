@@ -36,7 +36,7 @@ func (this *SpeedCafe) Init() error {
 	this.Engine = gin.Default()
 
 	// config
-	err := this.InitConfig()
+	err := this.initConfig()
 
 	// services
 	this.FoursquareService = foursquare.NewFoursquareService(
@@ -50,7 +50,7 @@ func (this *SpeedCafe) Init() error {
 	return err
 }
 
-func (this *SpeedCafe) InitConfig() error {
+func (this *SpeedCafe) initConfig() error {
 	this.Config = config.NewConfig()
 	return this.Config.Init(this.ConfigPath)
 }
