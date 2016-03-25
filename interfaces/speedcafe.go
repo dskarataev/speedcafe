@@ -1,6 +1,9 @@
 package interfaces
 
 type ISpeedCafe interface {
-	Init()
-	Run(address string)
+	Init() error
+	InitConfig() error
+	Run()
+	SetConfigPath(path string)
+	SetPort(port string)
 }

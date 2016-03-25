@@ -6,6 +6,6 @@ const (
 	URLHelloWorld = "/hello/world"
 )
 
-func (app *Speedcafe) addRoutes() {
-	app.Engine.GET(URLHelloWorld, handlers.HelloWorld)
+func (this *SpeedCafe) addRoutes() {
+	this.Engine.GET(URLHelloWorld, handlers.HelloWorld)
 }
