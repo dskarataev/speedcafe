@@ -7,8 +7,16 @@ type FoursquareClient struct {
 	SecretKey string `ini:"foursquare_secret"`
 }
 
+type Database struct {
+	Host      string `ini:"database_host"`
+	Name      string `ini:"database_name"`
+	User      string `ini:"database_User"`
+	Password  string `ini:"database_password"`
+}
+
 type Config struct {
 	FoursquareClient `ini:"DEFAULT"`
+	Database `ini:"DEFAULT"`
 }
 
 func NewConfig() *Config {

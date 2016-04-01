@@ -4,8 +4,8 @@ import (
 	"speedcafe/config"
 	"speedcafe/interfaces"
 	"speedcafe/services/foursquare"
-
 	"github.com/gin-gonic/gin"
+	"gopkg.in/pg.v4"
 )
 
 type SpeedCafe struct {
@@ -16,6 +16,8 @@ type SpeedCafe struct {
 	Config     *config.Config
 
 	FoursquareService interfaces.IFoursquareService
+
+	DB *pg.DB
 }
 
 func NewApp() interfaces.ISpeedCafe {
@@ -48,6 +50,9 @@ func (this *SpeedCafe) Init() error {
 
 	// routes
 	this.addRoutes()
+	
+	// db
+	this.initDatabase();
 
 	return err
 }
