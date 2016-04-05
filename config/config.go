@@ -10,7 +10,7 @@ type FoursquareClient struct {
 type Database struct {
 	Host      string `ini:"database_host"`
 	Name      string `ini:"database_name"`
-	User      string `ini:"database_User"`
+	User      string `ini:"database_user"`
 	Password  string `ini:"database_password"`
 }
 

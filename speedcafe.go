@@ -4,6 +4,7 @@ import (
 	"speedcafe/config"
 	"speedcafe/interfaces"
 	"speedcafe/services/foursquare"
+	"speedcafe/database"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/pg.v4"
 )
@@ -52,7 +53,7 @@ func (this *SpeedCafe) Init() error {
 	this.addRoutes()
 	
 	// db
-	this.initDatabase();
+	this.DB = database.NewConnection(this.Config.Database);
 
 	return err
 }

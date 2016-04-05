@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"gopkg.in/pg.v4"
-
 	"gopkg.in/go-pg/migrations.v4"
+
+	"speedcafe/config"
+	"speedcafe/database"
 )
 
 const verbose = true
@@ -15,10 +16,8 @@ const verbose = true
 func main() {
 	flag.Parse()
 
-	db := pg.Connect(&pg.Options{
-		User:     "postgres",
-		Database: "pg_migrations_example",
-	})
+	config := config.NewConfig()
+	db := database.NewConnection(config.Database)
 
 	oldVersion, newVersion, err := migrations.Run(db, flag.Args()...)
 	if err != nil {
