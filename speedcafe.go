@@ -11,9 +11,7 @@ import (
 
 type SpeedCafe struct {
 	Engine *gin.Engine
-	Port   string
 
-	ConfigPath string
 	Config     *config.Config
 
 	FoursquareService interfaces.IFoursquareService
@@ -25,17 +23,12 @@ func NewApp() interfaces.ISpeedCafe {
 	return &SpeedCafe{}
 }
 
-func (this *SpeedCafe) SetConfigPath(path string) {
-	this.ConfigPath = path
-}
-
-func (this *SpeedCafe) SetPort(port string) {
-	this.Port = port
-}
-
 func (this *SpeedCafe) Init() error {
-	// config
 	err := this.initConfig()
+
+	if err != nil {
+		return err
+	}
 
 	// services
 	this.FoursquareService = foursquare.NewFoursquareService(
@@ -59,10 +52,11 @@ func (this *SpeedCafe) Init() error {
 }
 
 func (this *SpeedCafe) initConfig() error {
-	this.Config = config.NewConfig()
-	return this.Config.Init(this.ConfigPath)
+	environmentVariables := config.ReadEnvironmentVariables()
+	this.Config = config.NewConfig();
+	return this.Config.Init(environmentVariables.ConfigPath, environmentVariables.Environment)
 }
 
 func (this *SpeedCafe) Run() {
-	this.Engine.Run(":" + this.Port)
+	this.Engine.Run(":" + this.Config.HttpPort)
 }

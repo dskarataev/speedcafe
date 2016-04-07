@@ -17,20 +17,37 @@ type Database struct {
 type Config struct {
 	FoursquareClient `ini:"DEFAULT"`
 	Database `ini:"DEFAULT"`
+	HttpPort string `ini:"http_port"`
 }
 
 func NewConfig() *Config {
 	return &Config{}
 }
 
-func (this *Config) Init(configPath string) error {
+func (this *Config) Init(configPath string, env string) error {
+
+	environmentVariables := ReadEnvironmentVariables()
+
 	cfg := ini.Empty()
 	// it makes reading 50-70% faster, but we should not write to config file in that case
 	cfg.BlockMode = false
 
-	err := cfg.Append(configPath)
+	err := cfg.Append(environmentVariables.ConfigPath + "app.ini")
 	if err != nil {
 		return err
+	}
+	if env != "live" {
+		err := cfg.Append(environmentVariables.ConfigPath + environmentVariables.Environment + ".ini")
+		if err != nil {
+			return err
+		}
+	}
+
+	if environmentVariables.HttpPort != "" {
+		err := cfg.Append([]byte("http_port=" + environmentVariables.HttpPort))
+		if err != nil {
+			return err
+		}
 	}
 
 	err = cfg.MapTo(this)
