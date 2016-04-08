@@ -1,6 +1,9 @@
 package config
 
-import "github.com/go-ini/ini"
+import (
+	"github.com/go-ini/ini"
+	"fmt"
+)
 
 type FoursquareClient struct {
 	ID        string `ini:"foursquare_id"`
@@ -27,6 +30,9 @@ func NewConfig() *Config {
 func (this *Config) Init(configPath string, env string) error {
 
 	environmentVariables := ReadEnvironmentVariables()
+	cliArgs := ReadCliArgs()
+
+	fmt.Print(cliArgs)
 
 	cfg := ini.Empty()
 	// it makes reading 50-70% faster, but we should not write to config file in that case
@@ -44,11 +50,9 @@ func (this *Config) Init(configPath string, env string) error {
 	}
 
 	if environmentVariables.HttpPort != "" {
-		err := cfg.Append([]byte("http_port=" + environmentVariables.HttpPort))
-		if err != nil {
-			return err
-		}
+		cfg.Section("").NewKey("http_port", environmentVariables.HttpPort);
 	}
+
 
 	err = cfg.MapTo(this)
 	if err != nil {

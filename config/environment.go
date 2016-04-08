@@ -10,10 +10,11 @@ type EnvConfig struct {
 }
 
 func ReadEnvironmentVariables() *EnvConfig {
-	var config EnvConfig
-	config.HttpPort = os.Getenv("PORT")
-	config.ConfigPath = os.Getenv("CONFIG_PATH")
-	config.Environment = os.Getenv("ENV")
+	config := EnvConfig{
+		HttpPort: os.Getenv("PORT"),
+		ConfigPath: os.Getenv("CONFIG_PATH"),
+		Environment: os.Getenv("ENV"),
+	}
 
 	if config.ConfigPath == "" {
 		config.ConfigPath = "etc/"
