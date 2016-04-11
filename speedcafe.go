@@ -52,9 +52,8 @@ func (this *SpeedCafe) Init() error {
 }
 
 func (this *SpeedCafe) initConfig() error {
-	environmentVariables := config.ReadEnvironmentVariables()
 	this.Config = config.NewConfig();
-	return this.Config.Init(environmentVariables.ConfigPath, environmentVariables.Environment)
+	return this.Config.Init()
 }
 
 func (this *SpeedCafe) Run() {

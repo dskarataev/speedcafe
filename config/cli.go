@@ -1,34 +1,24 @@
 package config
 
 import (
-	//"os"
-	"gopkg.in/alecthomas/kingpin.v2"
-	//"fmt"
+	"flag"
 )
 
 type CliConfig struct {
-	ConfigPath  *string
-	HttpPort    *int
-	Environment *string
+	ConfigPath  string
+	HttpPort    string
+	Environment string
 }
-
-var (
-	env     = kingpin.Flag("env", "Current environment: dev or live").Default("live").HintOptions("dev", "live").Short('e').String()
-	port    = kingpin.Arg("port", "Port to run application").Int()
-	config  = kingpin.Arg("config", "Config path, etc/").String()
-)
-
 
 func ReadCliArgs() *CliConfig {
 
-	kingpin.Version("0.0.1")
-	kingpin.Parse()
-
 	config := CliConfig{
-		HttpPort: port,
-		ConfigPath: config,
-		Environment: env,
+		HttpPort: *flag.String("port", "", "Http port"),
+		ConfigPath: *flag.String("config", "", "Path to config file"),
+		Environment: *flag.String("env", "", "Environment"),
 	}
+
+	flag.Parse();
 
 	return &config
 }

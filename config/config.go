@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/go-ini/ini"
-	"fmt"
 )
 
 type FoursquareClient struct {
@@ -27,32 +26,32 @@ func NewConfig() *Config {
 	return &Config{}
 }
 
-func (this *Config) Init(configPath string, env string) error {
+func (this *Config) Init() error {
 
-	environmentVariables := ReadEnvironmentVariables()
+	envVariables := ReadEnvironmentVariables()
 	cliArgs := ReadCliArgs()
-
-	fmt.Print(cliArgs)
 
 	cfg := ini.Empty()
 	// it makes reading 50-70% faster, but we should not write to config file in that case
 	cfg.BlockMode = false
 
-	err := cfg.Append(environmentVariables.ConfigPath + "app.ini")
+	// Calculate ConfigPath
+	configPath := choose(envVariables.ConfigPath, cliArgs.ConfigPath);
+
+	err := cfg.Append(configPath + "app.ini")
 	if err != nil {
 		return err
 	}
+
+	env := choose(envVariables.Environment, cliArgs.Environment);
 	if env != "live" {
-		err := cfg.Append(environmentVariables.ConfigPath + environmentVariables.Environment + ".ini")
+		err := cfg.Append(configPath + env + ".ini")
 		if err != nil {
 			return err
 		}
 	}
 
-	if environmentVariables.HttpPort != "" {
-		cfg.Section("").NewKey("http_port", environmentVariables.HttpPort);
-	}
-
+	cfg.Section("").NewKey("http_port", choose(envVariables.HttpPort, cliArgs.HttpPort));
 
 	err = cfg.MapTo(this)
 	if err != nil {
@@ -60,4 +59,12 @@ func (this *Config) Init(configPath string, env string) error {
 	}
 
 	return nil
+}
+
+func choose(first string, second string) string {
+	if first != "" {
+		return first
+	} else {
+		return second
+	}
 }
