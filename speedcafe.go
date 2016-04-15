@@ -19,7 +19,7 @@ type SpeedCafe struct {
 	DB *pg.DB
 }
 
-func NewApp() interfaces.ISpeedCafe {
+func NewApp() *SpeedCafe {
 	return &SpeedCafe{}
 }
 
