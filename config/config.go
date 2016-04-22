@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/go-ini/ini"
+	"fmt"
 )
 
 type FoursquareClient struct {
@@ -35,17 +36,22 @@ func (this *Config) Init() error {
 	// it makes reading 50-70% faster, but we should not write to config file in that case
 	cfg.BlockMode = false
 
+	fmt.Println("Result: ")
 	// Calculate ConfigPath
 	configPath := choose(envVariables.ConfigPath, cliArgs.ConfigPath);
-
 	err := cfg.Append(configPath + "app.ini")
+	fmt.Println("   Config: " + configPath + "app.ini")
+
 	if err != nil {
 		return err
 	}
 
-	env := choose(envVariables.Environment, cliArgs.Environment);
+	env := choose(cliArgs.Environment, envVariables.Environment);
+	fmt.Println("   Environment: " + env)
+
 	if env != "live" {
 		err := cfg.Append(configPath + env + ".ini")
+		fmt.Println("   Additional config: " + configPath + env + ".ini")
 		if err != nil {
 			return err
 		}
@@ -58,6 +64,11 @@ func (this *Config) Init() error {
 		return err
 	}
 
+	fmt.Println("Configurations:")
+	fmt.Println("   HTTP port: " + this.HttpPort)
+	fmt.Println("   Database host: " + this.Database.Host + ", name: " + this.Database.Name + ", user: " + this.Database.User + ", password: " + this.Database.Password)
+	fmt.Println("   Foursquare id: " + this.FoursquareClient.ID + ", key: " + this.FoursquareClient.SecretKey)
+	fmt.Println("")
 	return nil
 }
 

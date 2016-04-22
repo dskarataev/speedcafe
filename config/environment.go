@@ -1,7 +1,9 @@
 package config
 
-import
+import (
 	"os"
+	"fmt"
+)
 
 type EnvConfig struct {
 	ConfigPath  string
@@ -21,8 +23,14 @@ func ReadEnvironmentVariables() *EnvConfig {
 	}
 
 	if config.Environment == "" {
-		config.ConfigPath = "live"
+		config.Environment = "live"
 	}
+
+	fmt.Println("Environment Variables: ")
+	fmt.Print("     HttpPort: " + config.HttpPort)
+	fmt.Print(", ConfigPath: " + config.ConfigPath)
+	fmt.Print(", Environment: " + config.Environment)
+	fmt.Println("")
 
 	return &config
 }
