@@ -4,35 +4,31 @@ import (
 	"speedcafe/config"
 	"speedcafe/interfaces"
 	"speedcafe/services/foursquare"
-
+	"speedcafe/database"
 	"github.com/gin-gonic/gin"
+	"gopkg.in/pg.v4"
 )
 
 type SpeedCafe struct {
 	Engine *gin.Engine
-	Port   string
 
-	ConfigPath string
 	Config     *config.Config
 
 	FoursquareService interfaces.IFoursquareService
+
+	DB *pg.DB
 }
 
-func NewApp() interfaces.ISpeedCafe {
+func NewApp() *SpeedCafe {
 	return &SpeedCafe{}
 }
 
-func (this *SpeedCafe) SetConfigPath(path string) {
-	this.ConfigPath = path
-}
-
-func (this *SpeedCafe) SetPort(port string) {
-	this.Port = port
-}
-
 func (this *SpeedCafe) Init() error {
-	// config
 	err := this.initConfig()
+
+	if err != nil {
+		return err
+	}
 
 	// services
 	this.FoursquareService = foursquare.NewFoursquareService(
@@ -48,15 +44,18 @@ func (this *SpeedCafe) Init() error {
 
 	// routes
 	this.addRoutes()
+	
+	// db
+	this.DB = database.NewConnection(this.Config.Database);
 
 	return err
 }
 
 func (this *SpeedCafe) initConfig() error {
-	this.Config = config.NewConfig()
-	return this.Config.Init(this.ConfigPath)
+	this.Config = config.NewConfig();
+	return this.Config.Init()
 }
 
 func (this *SpeedCafe) Run() {
-	this.Engine.Run(":" + this.Port)
+	this.Engine.Run(":" + this.Config.HttpPort)
 }
